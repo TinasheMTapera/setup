@@ -1,0 +1,4 @@
+This repo contains scripts and configs for my ideal data science setup on Mac.
+
+The script `setup.sh` can be used to install and configure all of my favourite
+dev environments, IDEs, plugins, package managers, etc.
