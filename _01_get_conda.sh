@@ -75,25 +75,34 @@ MAMBA=${MAMBA:-0}
 INSTALLER_PATH=/tmp/${INSTALLER}
 
 function _install_miniconda() {
-    echo "Installing miniconda to ${INSTALL_PREFIX}"
-    echo "Installer: ${INSTALLER}"
-    echo "Mamba: ${MAMBA}"
-    echo "Upgrade: ${UPGRADE}"
-    curl -s -L https://repo.anaconda.com/miniconda/${INSTALLER} -o ${INSTALLER_PATH}
-    chmod +x ${INSTALLER_PATH}
-    ${INSTALLER_PATH} -b -p ${INSTALL_PREFIX}
-    rm ${INSTALLER_PATH}
-    ${INSTALL_PREFIX}/bin/conda upgrade -y --all
-    ${INSTALL_PREFIX}/bin/conda clean -ya
-    ${INSTALL_PREFIX}/bin/conda install -y conda-build conda-verify
-    if [ $UPGRADE -eq 1 ]; then
-            ${INSTALL_PREFIX}/bin/conda upgrade -y --all
-            ${INSTALL_PREFIX}/bin/conda clean -ya
-            ${INSTALL_PREFIX}/bin/conda install -y conda-build conda-verify
+    if command -v conda; then
+        echo "Conda is already installed."
+        echo $(conda --version)
+    else
+        echo "Installing miniconda to ${INSTALL_PREFIX}"
+        echo "Installer: ${INSTALLER}"
+        echo "Upgrade: ${UPGRADE}"
+        curl -s -L https://repo.anaconda.com/miniconda/${INSTALLER} -o ${INSTALLER_PATH}
+        chmod +x ${INSTALLER_PATH}
+        ${INSTALLER_PATH} -b -p ${INSTALL_PREFIX}
+        rm ${INSTALLER_PATH}
+        ${INSTALL_PREFIX}/bin/conda upgrade -y --all
+        ${INSTALL_PREFIX}/bin/conda clean -ya
+        ${INSTALL_PREFIX}/bin/conda install -y conda-build conda-verify
+        if [ $UPGRADE -eq 1 ]; then
+                ${INSTALL_PREFIX}/bin/conda upgrade -y --all
+                ${INSTALL_PREFIX}/bin/conda clean -ya
+                ${INSTALL_PREFIX}/bin/conda install -y conda-build conda-verify
+        fi
     fi
 
     if [ $MAMBA -eq 1 ]; then
-        ${INSTALL_PREFIX}/bin/conda install -y mamba -n base -c conda-forge
+        if command -v mamba; then
+            echo "Mamba is already installed."
+        else
+            echo "Mamba: ${MAMBA}"
+            ${INSTALL_PREFIX}/bin/conda install -y mamba -n base -c conda-forge
+        fi
     fi
 }
 
