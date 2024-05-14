@@ -73,6 +73,7 @@ conda update --all -y
 # ## resources: 
 
 mamba create -n $ENV_NAME -y python=$PY_VERSION
+source activate base
 mamba activate $ENV_NAME
 
 conda install -y jupyter pandas scikit-learn
@@ -83,6 +84,8 @@ conda install -y jupyter pandas scikit-learn
 ## resources: https://www.biostars.org/p/450316/
 
 mamba install -y -c conda-forge r-essentials r-tidyverse
-pip install -y radian
+pip install radian
+
+Rscript -e "install.packages(c('languageserver', 'httpgd'), repos='http://cran.us.r-project.org')"
 
 # 5. install quarto
