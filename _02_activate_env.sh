@@ -10,7 +10,8 @@ function usage() {
   exit 0
 }
 
-echo $1!
+echo args: $1!
+
 eval "$($1/conda shell.bash hook)"
 
 echo here!!!
