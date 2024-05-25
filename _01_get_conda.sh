@@ -1,5 +1,5 @@
 #### CREDIT: https://gist.github.com/mherkazandjian/cce01cf3e15c0b41c1c4321245a99096
-
+### curl -s https://raw.githubusercontent.com/TinasheMTapera/setup/TinasheMTapera/issue2/_01_get_conda.sh | bash -s -- ~/software
 #!/bin/bash
 
 function usage() {

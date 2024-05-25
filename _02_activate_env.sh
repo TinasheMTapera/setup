@@ -13,5 +13,5 @@ function usage() {
 echo args: $1!
 
 eval "$($1/conda shell.bash hook)"
-
+$1/conda upgrade -y --all
 echo here!!!
