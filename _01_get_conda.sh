@@ -14,6 +14,8 @@ function usage() {
   exit 0
 }
 
+SHELL_NAME="bash"
+
 # the installation root directory of miniconda (e.g /opt/conda)
 INSTALL_PREFIX=$1
 
@@ -111,6 +113,7 @@ echo $PATH
 export PATH=$INSTALL_PREFIX/bin/conda:$PATH
 echo $PATH
 
-echo which conda
-conda shell.bash activate > /tmp/init.sh
-bash --init-file /tmp/init.sh
+eval "$($INSTALL_PREFIX/bin/conda shell.SHELL_NAME hook)"
+
+conda init
+echo $(which conda)
