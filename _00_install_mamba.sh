@@ -8,6 +8,11 @@ wget -O Miniforge3.sh "https://github.com/conda-forge/miniforge/releases/latest/
 ###
 bash Miniforge3.sh -b -p "${HOME}/conda"
 
+### add conda to bashrc
+cd "${HOME}/conda/bin"
+./conda init bash
+
+### activate now for non-interactive installs
 source "${HOME}/conda/etc/profile.d/conda.sh"
 # For mamba support also run the following command
 source "${HOME}/conda/etc/profile.d/mamba.sh"
@@ -23,3 +28,4 @@ conda install -y jupyter pandas scikit-learn
 pip install radian
 mamba install -y -c conda-forge r-essentials r-tidyverse
 Rscript -e "install.packages(c('languageserver', 'httpgd'), repos='http://cran.us.r-project.org')"
+
