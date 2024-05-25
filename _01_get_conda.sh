@@ -108,5 +108,5 @@ function _install_miniconda() {
 
 _install_miniconda
 echo $PATH
-ENV PATH=$INSTALL_PREFIX/bin/conda:$PATH
+export PATH=$INSTALL_PREFIX/bin/conda:$PATH
 echo $PATH
