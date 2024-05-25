@@ -10,6 +10,12 @@ function usage() {
   exit 0
 }
 
+# the installation root directory of miniconda (e.g /opt/conda)
+INSTALL_PREFIX=$1
+
+# remove this first argument by "shifting" to the next (kinda like "pop")
+shift
+
 # loop over the list of args with $#; if the current arg is in the list, handle
 while [ $# -gt 0 ]; do
     case "$1" in
@@ -41,8 +47,8 @@ while [ $# -gt 0 ]; do
     shift
 done
 
-eval "$($1/conda shell.bash hook)"
+eval "$($INSTALL_PREFIX/conda shell.bash hook)"
 echo conda version: $1/conda --version
-$1/conda upgrade -y --all
+$INSTALL_PREFIX/conda upgrade -y --all
 echo conda version: $1/conda --version
 echo here!!!
