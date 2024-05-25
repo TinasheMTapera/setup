@@ -13,3 +13,13 @@ source "${HOME}/conda/etc/profile.d/conda.sh"
 source "${HOME}/conda/etc/profile.d/mamba.sh"
 
 conda activate
+mamba activate
+
+mamba create -n foofy -y python=3.9
+
+mamba activate foofy
+
+conda install -y jupyter pandas scikit-learn
+pip install radian
+mamba install -y -c conda-forge r-essentials r-tidyverse
+Rscript -e "install.packages(c('languageserver', 'httpgd'), repos='http://cran.us.r-project.org')"
