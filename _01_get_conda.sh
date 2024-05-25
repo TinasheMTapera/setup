@@ -8,13 +8,14 @@ function usage() {
   echo "  /path/to/prefix/   the installation root directory of miniconda (e.g /opt/conda)"
   echo "  -i|--installer     the miniconda installer name (e.g Miniconda3-latest-Linux-x86_64.sh)"
   echo "                     others can be specified from https://repo.anaconda.com/miniconda/"
+  echo "  -n|--name          name of new environment for your project"
   echo "  -m|--mamba         install mamba in the base environment"
   echo "  -u|--upgrade       upgrade miniconda packages"
   echo "  -h|--help          show this help text"
   exit 0
 }
 
-SHELL_NAME="bash"
+VENV_NAME="foo"
 
 # the installation root directory of miniconda (e.g /opt/conda)
 INSTALL_PREFIX=$1
@@ -33,6 +34,15 @@ while [ $# -gt 0 ]; do
             # extra shift to handle arg string
             shift
             ;;
+        -n|--name)
+
+            # if the current flag is present, set true
+            [ -n "$1" ] && VENV_NAME=$2 || usage
+
+            # extra shift to handle arg string
+            shift
+            ;;
+            
         -m|--mamba)
 
             # if the current flag is present, set true
@@ -98,6 +108,15 @@ function _install_miniconda() {
         fi
     fi
 
+    eval "$($INSTALL_PREFIX/bin/conda shell.bash hook)"
+    conda init
+    source ~/.bashrc
+}
+
+_install_miniconda
+
+function _install_mamba(){
+    
     if [ $MAMBA -eq 1 ]; then
         if command -v mamba; then
             echo "Mamba is already installed."
@@ -108,13 +127,7 @@ function _install_miniconda() {
     fi
 }
 
-_install_miniconda
-echo $PATH
-export PATH=$INSTALL_PREFIX/bin/conda:$PATH
-echo $PATH
+_install_mamba
 
-eval "$($INSTALL_PREFIX/bin/conda shell.bash hook)"
-
-conda init
-source ~/.bashrc
-echo $(which conda)
+mamba create -n $VENV_NAME -y python=3.9
+mamba activate $VENV_NAME
