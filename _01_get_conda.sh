@@ -116,4 +116,5 @@ echo $PATH
 eval "$($INSTALL_PREFIX/bin/conda shell.bash hook)"
 
 conda init
+source ~/.bashrc
 echo $(which conda)
