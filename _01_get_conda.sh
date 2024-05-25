@@ -113,7 +113,7 @@ echo $PATH
 export PATH=$INSTALL_PREFIX/bin/conda:$PATH
 echo $PATH
 
-eval "$($INSTALL_PREFIX/bin/conda shell.$SHELL_NAME hook)"
+eval "$($INSTALL_PREFIX/bin/conda shell.bash hook)"
 
 conda init
 echo $(which conda)
