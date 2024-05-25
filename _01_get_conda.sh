@@ -110,3 +110,7 @@ _install_miniconda
 echo $PATH
 export PATH=$INSTALL_PREFIX/bin/conda:$PATH
 echo $PATH
+
+echo which conda
+conda shell.bash activate > /tmp/init.sh
+bash --init-file /tmp/init.sh
