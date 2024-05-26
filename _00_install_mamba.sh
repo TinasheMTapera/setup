@@ -1,12 +1,118 @@
-### LINUX
-wget -O Miniforge3.sh "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+#!/bin/bash
 
-### MAC
+function usage() {
+  local script_name=$(basename "$0")
+  echo
+  echo "Usage: $script_name  /path/to/prefix/ [-n|--name <new_environment_name>] [-p|--platform <platform>]"
+  echo
+  echo "  /path/to/prefix/   the installation root directory of miniconda (e.g /opt/conda)"
+  echo "  -n|--name          proposed name of new environment for your project"
+  echo "  -p|--platform      choose a platform:"
+  echo "                        - mac: MacOS"
+  echo "                        - linux: E.g. for a Docker container"
+  echo "  -h|--help          show this help text"
+  echo
 
-#curl -fsSLo Miniforge3.sh "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-$(uname -m).sh"
+}
 
-###
-bash Miniforge3.sh -b -p "${HOME}/conda"
+# ensure path is given
+if [[ "${1?}" == -* ]] || [[ ! -d $1 ]]; then
+   echo "Error: Invalid first argument"
+   usage
+   exit 1
+fi
+
+# the installation root directory of miniconda (e.g /opt/conda)
+INSTALLATION_PATH=$1
+
+# remove this first argument by "shifting" to the next (kinda like "pop")
+shift
+
+#VENV_NAME=""
+#PLATFORM=""
+
+# loop over the list of args with $#; if the current arg is in the list, handle
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -n|--name)
+
+            # extra shift to handle arg string
+            shift
+            # if the current flag is present, use name
+            VENV_NAME=$1
+            ;;
+            
+        -p|--platform)
+
+            # if the current flag is present, then test the next flag
+            shift
+            case "$1" in
+                "mac")
+                    PLATFORM="MACOS"
+                    ;;
+                "linux")
+                    PLATFORM="LINUX"
+                    ;;
+                *)
+                    echo "Invalid option: $1 Please provide a platform for your machine."
+                    usage
+                    ;;
+            esac
+            ;;
+        -h|--help)
+            usage
+            ;;
+        *)
+            usage
+            ;;
+    esac
+    shift
+done
+
+shift $((OPTIND - 1))
+
+# Check if arguments came through
+if [ -z "$VENV_NAME" ]; then
+    echo "Error: Please provide a name for the environment."
+    usage
+    exit 1
+fi
+
+echo
+echo "Downloading Conda for $PLATFORM to $(realpath $INSTALLATION_PATH) and initializing environment: $VENV_NAME..."
+echo
+
+if [ "$PLATFORM" = "LINUX" ]; then
+    
+    # get the linux installer
+    pushd $INSTALLATION_PATH
+    echo wget -O Miniforge3.sh "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname -s)-$(uname -m).sh"
+    
+    ### Run installation
+    echo bash Miniforge3.sh -b -p "${HOME}/conda"
+    
+    ### return
+    echo rm -f Miniforge3.sh
+    popd
+
+elif [ "$PLATFORM" = "MACOS" ]; then
+    
+    # get the mac installer
+    pushd $INSTALLATION_PATH
+    echo curl -fsSLo Miniforge3.sh "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-$(uname -m).sh"
+    
+    ### Run installation
+    echo bash Miniforge3.sh -b -p "${HOME}/conda"
+
+    ### return
+    echo rm -f Miniforge3.sh
+    popd
+else
+    echo "Unknown platform: $PLATFORM"
+    exit 1
+fi
+
+exit 0
 
 ### add conda to bashrc
 cd "${HOME}/conda/bin"
@@ -24,9 +130,9 @@ mamba create -n foofy -y python=3.9
 
 mamba activate foofy
 
-conda install -y jupyter pandas scikit-learn
-pip install radian
-mamba install -y -c conda-forge r-essentials r-tidyverse r-languageserver r-httpgd
-#Rscript -e "install.packages(c('languageserver', 'httpgd'), repos='http://cran.us.r-project.org')"
+mamba install -y jupyter pandas scikit-learn
+mamba install -y -c conda-forge r-essentials r-tidyverse r-languageserver r-httpgd radian
 
-echo Installation complete. Restart the shell and conda should be ready to run.
+echo
+echo "Installation complete. Restart the shell and conda should be ready to run."
+echo
