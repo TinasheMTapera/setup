@@ -16,7 +16,7 @@ function usage() {
 }
 
 # ensure path is given
-if [[ -z "$1" ]]; then
+if [[ $# -gt 0 ]]; then
     if [[ "${1?}" == -* ]] || [[ ! -d $1 ]]; then
         echo "Error: Invalid first argument"
         usage
