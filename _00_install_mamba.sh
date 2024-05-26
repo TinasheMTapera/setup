@@ -24,6 +24,7 @@ fi
 
 # the installation root directory of miniconda (e.g /opt/conda)
 INSTALLATION_PATH=$1
+CONDA_PATH=$HOME
 
 # remove this first argument by "shifting" to the next (kinda like "pop")
 shift
@@ -43,7 +44,7 @@ while [ $# -gt 0 ]; do
                     usage
                     exit 0
                 else
-                    VENV_NAME=$2
+                    VENV_NAME=$1
                 fi
             else
 
@@ -103,26 +104,26 @@ if [ "$PLATFORM" = "LINUX" ]; then
     
     # get the linux installer
     pushd $INSTALLATION_PATH
-    echo wget -O Miniforge3.sh "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname -s)-$(uname -m).sh"
+    wget -O Miniforge3.sh "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname -s)-$(uname -m).sh"
     
     ### Run installation
-    echo bash Miniforge3.sh -b -p "${HOME}/conda"
+    bash Miniforge3.sh -b -p "${CONDA_PATH}/conda"
     
     ### return
-    echo rm -f Miniforge3.sh
+    rm -f Miniforge3.sh
     popd
 
 elif [ "$PLATFORM" = "MACOS" ]; then
     
     # get the mac installer
     pushd $INSTALLATION_PATH
-    echo curl -fsSLo Miniforge3.sh "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-$(uname -m).sh"
+    curl -fsSLo Miniforge3.sh "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-$(uname -m).sh"
     
     ### Run installation
-    echo bash Miniforge3.sh -b -p "${HOME}/conda"
+    bash Miniforge3.sh -b -p "${CONDA_PATH}/conda"
 
     ### return
-    echo rm -f Miniforge3.sh
+    rm -f Miniforge3.sh
     popd
 else
     echo "Unknown platform: $PLATFORM"
@@ -131,25 +132,33 @@ fi
 
 exit 0
 
-### add conda to bashrc
-cd "${HOME}/conda/bin"
-./conda init bash
+function _configure_conda(){
+    
+    ### add conda to bashrc
+    local condapath="$1"
+    cd "${condapath}/conda/bin"
+    ./conda init bash
 
-### activate now for non-interactive installs
-source "${HOME}/conda/etc/profile.d/conda.sh"
-# For mamba support also run the following command
-source "${HOME}/conda/etc/profile.d/mamba.sh"
+    ### activate now for non-interactive installs
+    source "${condapath}/conda/etc/profile.d/conda.sh"
+    # For mamba support also run the following command
+    source "${condapath}/conda/etc/profile.d/mamba.sh"
 
-conda activate
-mamba activate
+    conda activate
+    mamba activate
 
-mamba create -n foofy -y python=3.9
+    mamba create -n foofy -y python=3.9
 
-mamba activate foofy
+    mamba activate foofy
 
-mamba install -y jupyter pandas scikit-learn
-mamba install -y -c conda-forge r-essentials r-tidyverse r-languageserver r-httpgd radian
+    mamba install -y jupyter pandas scikit-learn
+    mamba install -y -c conda-forge r-essentials r-tidyverse r-languageserver r-httpgd radian
+}
+
+echo Configuring conda for your user...
+
+# _configure_conda() $CONDA_PATH
 
 echo
-echo "Installation complete. Restart the shell and conda should be ready to run."
+echo "Installation complete. Start a new shell and conda should be ready to run."
 echo
