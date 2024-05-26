@@ -16,10 +16,14 @@ function usage() {
 }
 
 # ensure path is given
-if [[ "${1?}" == -* ]] || [[ ! -d $1 ]]; then
-   echo "Error: Invalid first argument"
-   usage
-   exit 0
+if [[ -n "$1" ]]; then
+    if [[ "${1?}" == -* ]] || [[ ! -d $1 ]]; then
+        echo "Error: Invalid first argument"
+        usage
+        exit 0
+    fi
+    usage
+    exit 0
 fi
 
 # the installation root directory of miniconda (e.g /opt/conda)
