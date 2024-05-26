@@ -135,13 +135,11 @@ else
     exit 1
 fi
 
-echo here!
-echo $CONDA_PATH
-
 function _configure_conda(){
     
     ### add conda to bashrc
     local condapath="$1"
+    local venv_name="$2"
     cd "${condapath}/conda/bin"
     ./conda init bash
 
@@ -153,18 +151,18 @@ function _configure_conda(){
     conda activate
     mamba activate
 
-    mamba create -n foofy -y python=3.9
+    mamba create -n $venv_name -y python=3.9
 
-    mamba activate foofy
+    mamba activate $venv_name
 
     mamba install -y jupyter pandas scikit-learn
     mamba install -y -c conda-forge r-essentials r-tidyverse r-languageserver r-httpgd radian
 }
 
 echo "Configuring conda for your user..."
-echo $CONDA_PATH
-_configure_conda "$CONDA_PATH"
+
+_configure_conda "$CONDA_PATH" "$VENV_NAME
 
 echo
-echo "Installation complete. Start a new shell and conda should be ready to run."
+echo "Installation complete. Start a new shell and a conda environment called $VENV_NAME should be ready to run."
 echo
