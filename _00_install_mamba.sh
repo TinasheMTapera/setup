@@ -28,9 +28,6 @@ INSTALLATION_PATH=$1
 # remove this first argument by "shifting" to the next (kinda like "pop")
 shift
 
-#VENV_NAME=""
-#PLATFORM=""
-
 # loop over the list of args with $#; if the current arg is in the list, handle
 while [ $# -gt 0 ]; do
     case "$1" in
@@ -74,6 +71,12 @@ shift $((OPTIND - 1))
 # Check if arguments came through
 if [ -z "$VENV_NAME" ]; then
     echo "Error: Please provide a name for the environment."
+    usage
+    exit 1
+fi
+
+if [ -z "$PLATFORM" ]; then
+    echo "Error: Please provide the platform of your machine."
     usage
     exit 1
 fi
