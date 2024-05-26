@@ -19,7 +19,7 @@ function usage() {
 if [[ "${1?}" == -* ]] || [[ ! -d $1 ]]; then
    echo "Error: Invalid first argument"
    usage
-   exit 1
+   exit 0
 fi
 
 # the installation root directory of miniconda (e.g /opt/conda)
@@ -51,8 +51,7 @@ while [ $# -gt 0 ]; do
                     PLATFORM="LINUX"
                     ;;
                 *)
-                    echo "Invalid option: $1 Please provide a platform for your machine."
-                    usage
+                    echo "Error: Invalid option: $1 Please provide a platform for your machine."
                     ;;
             esac
             ;;
