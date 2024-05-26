@@ -43,6 +43,10 @@ while [ $# -gt 0 ]; do
 
             # if the current flag is present, then test the next flag
             shift
+            
+            if [[ -z $1 ]]; then
+                echo "Error: Please provide a platform for your machine."
+            fi
             case "$1" in
                 "mac")
                     PLATFORM="MACOS"
