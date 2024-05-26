@@ -164,5 +164,6 @@ echo "Configuring conda for your user..."
 _configure_conda "$CONDA_PATH" "$VENV_NAME"
 
 echo
-echo "Installation complete. Start a new shell and a conda environment called $VENV_NAME should be ready to run."
+echo "Installation complete."
+echo "Start a new shell and a conda environment called $VENV_NAME should be ready to run."
 echo
