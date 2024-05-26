@@ -161,7 +161,7 @@ function _configure_conda(){
 
 echo "Configuring conda for your user..."
 
-_configure_conda "$CONDA_PATH" "$VENV_NAME
+_configure_conda "$CONDA_PATH" "$VENV_NAME"
 
 echo
 echo "Installation complete. Start a new shell and a conda environment called $VENV_NAME should be ready to run."
