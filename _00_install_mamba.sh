@@ -29,7 +29,7 @@ fi
 
 # the installation root directory of miniconda (e.g /opt/conda)
 INSTALLATION_PATH=$1
-CONDA_PATH=$HOME
+CONDA_PATH="${HOME}"
 
 # remove this first argument by "shifting" to the next (kinda like "pop")
 shift
