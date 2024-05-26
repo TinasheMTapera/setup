@@ -16,12 +16,13 @@ function usage() {
 }
 
 # ensure path is given
-if [[ $# -gt 0 ]]; then
+if [[ $# -gt 1 ]]; then
     if [[ "${1?}" == -* ]] || [[ ! -d $1 ]]; then
-        echo "Error: Invalid first argument"
+        echo "Error: Invalid first argument <path/to/prefix>"
         usage
         exit 0
     fi
+else
     usage
     exit 0
 fi
