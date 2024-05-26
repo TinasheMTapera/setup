@@ -26,6 +26,7 @@ mamba activate foofy
 
 conda install -y jupyter pandas scikit-learn
 pip install radian
-mamba install -y -c conda-forge r-essentials r-tidyverse
-Rscript -e "install.packages(c('languageserver', 'httpgd'), repos='http://cran.us.r-project.org')"
+mamba install -y -c conda-forge r-essentials r-tidyverse r-languageserver r-httpgd
+#Rscript -e "install.packages(c('languageserver', 'httpgd'), repos='http://cran.us.r-project.org')"
 
+echo Installation complete. Restart the shell and conda should be ready to run.
