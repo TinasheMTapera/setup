@@ -136,6 +136,7 @@ else
 fi
 
 echo here!
+echo $CONDA_PATH
 
 function _configure_conda(){
     
@@ -162,7 +163,7 @@ function _configure_conda(){
 
 echo Configuring conda for your user...
 
-_configure_conda() $CONDA_PATH
+_configure_conda() "${CONDA_PATH}"
 
 echo
 echo "Installation complete. Start a new shell and conda should be ready to run."
