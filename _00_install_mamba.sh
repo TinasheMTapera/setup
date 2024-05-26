@@ -135,6 +135,8 @@ else
     exit 1
 fi
 
+echo here!
+
 function _configure_conda(){
     
     ### add conda to bashrc
