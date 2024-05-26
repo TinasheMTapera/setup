@@ -35,7 +35,14 @@ while [ $# -gt 0 ]; do
 
             # extra shift to handle arg string
             shift
+            
             # if the current flag is present, use name
+            if [[ -z $1 ]]; then
+                echo "Error: expected flag value for [-n|--name]"
+                usage
+                exit 0
+            fi
+            
             VENV_NAME=$1
             ;;
             
@@ -55,6 +62,7 @@ while [ $# -gt 0 ]; do
                     PLATFORM=""
                     ;;
             esac
+            
             ;;
         -h|--help)
             usage
