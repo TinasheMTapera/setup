@@ -32,18 +32,24 @@ shift
 while [ $# -gt 0 ]; do
     case "$1" in
         -n|--name)
-
             # extra shift to handle arg string
             shift
-            
+
             # if the current flag is present, use name
-            if [[ -z $1 ]]; then
-                echo "Error: expected flag value for [-n|--name]"
-                usage
-                exit 0
+            if [[ -n "$1" ]]; then
+
+                if [[ "${1?}" == -* ]]; then
+                    echo "Error: expected flag value for [-n|--name]"
+                    usage
+                    exit 0
+                else
+                    VENV_NAME=$2
+                fi
+            else
+
+                VENV_NAME=""
             fi
             
-            VENV_NAME=$1
             ;;
             
         -p|--platform)
