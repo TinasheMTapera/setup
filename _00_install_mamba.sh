@@ -161,8 +161,8 @@ function _configure_conda(){
     mamba install -y -c conda-forge r-essentials r-tidyverse r-languageserver r-httpgd radian
 }
 
-echo Configuring conda for your user...
-
+echo "Configuring conda for your user..."
+echo $CONDA_PATH
 _configure_conda() "${CONDA_PATH}"
 
 echo
