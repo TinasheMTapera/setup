@@ -151,9 +151,9 @@ function _configure_conda(){
     conda activate
     mamba activate
 
-    mamba create -n $venv_name -y python=3.9
+    mamba create -n "$venv_name" -y python=3.9
 
-    mamba activate $venv_name
+    mamba activate "$venv_name"
 
     mamba install -y jupyter pandas scikit-learn
     mamba install -y -c conda-forge r-essentials r-tidyverse r-languageserver r-httpgd radian
